@@ -1,9 +1,18 @@
-# webapp/app.yaml
-application: guestbook
+application: ctst
 version: 1
 runtime: python
 api_version: 1
 
 handlers:
-- url: .*
-  script: main.py
+- url: /_ah/queue/deferred
+  script: djangoappengine/deferred/handler.py
+  login: admin
+
+- url: /_ah/stats/.*
+  script: djangoappengine/appstats/ui.py
+
+- url: /media/admin
+  static_dir: django/contrib/admin/media
+
+- url: /.*
+  script: djangoappengine/main/main.py
