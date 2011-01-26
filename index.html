@@ -1,0 +1,34 @@
+<!-- Original web template, "webapp/index.html" -->
+<html>
+    <body>Hello
+    {% if user %}
+        {{ user.nickname }}!
+        [<a href="{{ logout }}"><b>sign out</b></a>]
+    {% else %}
+        World!
+        [<a href="{{ login }}"><b>sign in</b></a>]
+    {% endif %}
+
+    <h2>Top 10 Most Recent Guestbook Entries</h2>
+
+    {% for greeting in greetings %}
+        <br>
+        <small>[<i>{{ greeting.date.ctime }}</i>]</small>
+        <b>
+        {% if greeting.author %}
+            <code>{{ greeting.author.nickname }}</code>
+        {% else %}
+            <i>anonymous</i>
+        {% endif %}
+        </b>
+        wrote:
+        {{ greeting.content|escape }}
+    {% endfor %}
+
+    <hr>
+    <form action="/sign" method=post>
+        <textarea name=content rows=3 cols=60></textarea>
+        <br><input type=submit value="Sign Guestbook">
+    </form>
+    </body>
+</html>
