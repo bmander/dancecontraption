@@ -6,15 +6,13 @@ Replace these with more appropriate tests for your application.
 """
 
 from django.test import TestCase
-from guestbook.models import Greeting
 
 class SimpleTest(TestCase):
-    def setUp(self):
-        Greeting(content='This is a test greeting').save()
-
-        def test_setup(self):
-        self.assertEqual(1, len(Greeting.objects.all()))
-        self.assertEqual('This is a test greeting', Greeting.objects.all()[0].content)
+    def test_basic_addition(self):
+        """
+        Tests that 1 + 1 always equals 2.
+        """
+        self.failUnlessEqual(1 + 1, 2)
 
 __test__ = {"doctest": """
 Another way to test that 1 + 1 is equal to 2.
