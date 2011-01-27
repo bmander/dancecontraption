@@ -3,10 +3,30 @@
 <html lang="en">
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <script type="text/javascript" src="/js/polymaps.js"></script>
+    <script type="text/javascript">
+      function foobar() {
+      var po = org.polymaps;
+
+      var map = po.map()
+          .container(document.getElementById("map").appendChild(po.svg("svg")))
+	  .add(po.interact())
+	  .add(po.hash());
+
+      map.add(po.image()
+          .url(po.url("http://{S}tile.cloudmade.com"
+          + "/55719c07a98a425497aa2e0fbec1f335"
+          + "/998/256/{Z}/{X}/{Y}.png")
+          .hosts(["a.", "b.", "c.", ""])));
+
+      map.add(po.compass()
+          .pan("none"));
+      }
+    </script>
     <title>Dance Contraption</title>
   </head>
-  <body>
-    <p>hello, world!</p>
+  <body onload="foobar()">
+    <div id="map"></div> 
   </body>
 </html>
 
