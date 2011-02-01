@@ -8,14 +8,35 @@
     <!--[if lt IE 8]>
       <link rel="stylesheet" href="/css/blueprint/ie.css" type="text/css" media="screen, projection">
     <![endif]-->
+    <script type="text/javascript" src="/js/polymaps.js"></script>
     <script type="text/javascript" src="/js/jquery-1.5.js"></script>
+    <script type="text/javascript">
+      $(document).ready( function() {
+      var po = org.polymaps;
+
+      var map = po.map()
+          .container(document.getElementById("map").appendChild(po.svg("svg")))
+	  .add(po.interact())
+	  .add(po.hash());
+
+      map.add(po.image()
+          .url(po.url("http://{S}tile.cloudmade.com"
+          + "/55719c07a98a425497aa2e0fbec1f335"
+          + "/998/256/{Z}/{X}/{Y}.png")
+          .hosts(["a.", "b.", "c.", ""])));
+
+      map.add(po.compass()
+          .pan("none"));
+      })
+    </script>
     <title>Dance Contraption</title>
   </head>
   <body>
     <div class="container">
-    {% for dance in dances %}
-    <a href="/dance/{{dance.id}}/">{{ dance.name }}</a>
-    {% endfor %}
+      <div class="span-24">
+        <h1>Dance Contraption</h1>
+      </div>
+      <div class="span-24" id="map" height=200></div> 
     </div>
   </body>
 </html>
