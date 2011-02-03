@@ -1,22 +1,18 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html lang="en">
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen, projection">
-    <link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print"> 
-    <!--[if lt IE 8]>
-      <link rel="stylesheet" href="/css/blueprint/ie.css" type="text/css" media="screen, projection">
-    <![endif]-->
-    <script type="text/javascript" src="/js/jquery-1.5.js"></script>
-    <title>Dance Contraption</title>
-  </head>
-  <body>
-    <div class="container">
-    {% for dance in dances %}
-    <a href="/dance/{{dance.id}}/">{{ dance.name }}</a>
-    {% endfor %}
-    </div>
-  </body>
-</html>
+{% extends "main/base.html" %}
+
+{% block content %}
+  <div>
+  <h2>dances</h2>
+  <ul>
+  {% for dance in dances %}
+  <li><a href="/dance/{{dance.id}}/">{{ dance.name }}</a></li>
+  {% endfor %}
+  </ul>
+  <div>
+  <a href="/dance/add/">add dance</a>
+  </div>
+  <div>
+{% endblock %}
+
+
 
