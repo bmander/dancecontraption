@@ -2,15 +2,16 @@
 
 {% block content %}
   <div>
-  <h2>dances</h2>
-  <ul>
-  {% for dance in dances %}
-  <li><a href="/dance/{{dance.id}}/">{{ dance.name }}</a></li>
-  {% endfor %}
-  </ul>
-  <div>
-  <a href="/dance/add/">add dance</a>
-  </div>
+    <h1>Dance Contraption</h1>
+    <h2>dances</h2>
+    <ul>
+    {% for dance in dances %}
+      <li><a href="/dance/{{dance.id}}/">{{ dance.name }}</a></li>
+    {% endfor %}
+    </ul>
+    <div>
+      <a href="/dance/add/">add dance</a>
+    </div>
   <div>
 {% endblock %}
 
