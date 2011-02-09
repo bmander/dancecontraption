@@ -1,4 +1,24 @@
 - model: main.dance
   pk: 1
   fields:
-    name: Phinney Dance
+    name: Lake City Contra & Old Time Country Dance 
+- model: main.dance
+  pk: 2
+  fields:
+    name: Emerald City Contra Dance 
+- model: main.dance
+  pk: 3
+  fields:
+    name: Ellensburg Contra Dance 
+- model: main.dance
+  pk: 4
+  fields:
+    name: Seattle Rainbow Contra Dance 
+- model: main.dance
+  pk: 5
+  fields:
+    name: Port Angeles Contra Dance 
+- model: main.dance
+  pk: 6
+  fields:
+    name: Olympia Contra Dance 
