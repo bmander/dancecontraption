@@ -1,13 +1,26 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 
+from google.appengine.api import users
+
 from main.models import Dance
 from main.forms import DanceForm
 
 def index(request):
+
+    user = users.get_current_user()
+    if user is None:
+      login_url = users.create_login_url(dest_url="/")
+      logout_url = None
+    else:
+      login_url = None
+      logout_url = users.create_logout_url("/")
+
     dances = Dance.objects.all() 
 
-    return render_to_response('main/index.html', {'dances':dances})
+    return render_to_response('main/index.html', {'dances':dances,'user':user,
+                                                  'login_url':login_url,
+						  'logout_url':logout_url})
 
 def dance(request, id):
     dance = Dance.objects.get(pk=id)

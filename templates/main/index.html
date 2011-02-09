@@ -3,6 +3,11 @@
 {% block content %}
   <div>
     <h1>Dance Contraption</h1>
+    {% if user %}
+      {{ user }} <a href="{{ logout_url }}">logout</a>
+    {% else %}
+      <a href="{{ login_url }}">login</a>
+    {% endif %}
     <h2>dances</h2>
     <ul>
     {% for dance in dances %}
