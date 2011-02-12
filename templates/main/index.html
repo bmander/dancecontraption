@@ -3,10 +3,10 @@
 {% block content %}
   <div>
     <h1>Dance Contraption</h1>
-    {% if user %}
-      {{ user }} <a href="{{ logout_url }}">logout</a>
+    {% if user.is_authenticated %}
+      you're totally logged in as {{user.username}}
     {% else %}
-      <a href="{{ login_url }}">login</a>
+      <a href="{% url main.views.login %}">login</a>
     {% endif %}
     <h2>dances</h2>
     <ul>

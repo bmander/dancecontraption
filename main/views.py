@@ -1,15 +1,17 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
+from django.template import RequestContext
 
 from google.appengine.api import users
 
 from main.models import Dance
 from main.forms import DanceForm
 
+from django.contrib.auth import authenticate, login as auth_login
+
 def index(request):
 
-    user = users.get_current_user()
-    if user is None:
+    if request.user.is_authenticated():
       login_url = users.create_login_url(dest_url="/")
       logout_url = None
     else:
@@ -18,9 +20,22 @@ def index(request):
 
     dances = Dance.objects.all() 
 
-    return render_to_response('main/index.html', {'dances':dances,'user':user,
+    return render_to_response('main/index.html', RequestContext(request, 
+                                                 {'dances':dances,
                                                   'login_url':login_url,
-						  'logout_url':logout_url})
+						  'logout_url':logout_url}))
+
+def login(request):
+    if request.method == 'POST':
+       user = authenticate(username=request.POST['username'], password=request.POST['password']) 
+       
+       if user and user.is_active:
+          auth_login(request,user)
+
+          return HttpResponseRedirect( "/" )
+       
+
+    return render_to_response('main/login.html')
 
 def dance(request, id):
     dance = Dance.objects.get(pk=id)
