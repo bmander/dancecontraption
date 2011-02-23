@@ -1,0 +1,18 @@
+
+{% extends "main/base.html" %}
+{% block content %}
+<h1>{{band.name}}</h1>
+<h2>members</h2>
+<ul>
+{% for member in members %}
+<li>{{ member.person.name }} ({% for instrument in member.instruments.all %}{{instrument.instrument.name}}{% if not forloop.last %}, {%endif%}{% endfor %})</li>
+{% endfor %}
+</ul>
+<h2>events</h2>
+<ul>
+{% for event in events %}
+<li>{{event.date}} - <a href="{% url main.views.dance event.dance.id %}">{{event.dance.name}}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}
+

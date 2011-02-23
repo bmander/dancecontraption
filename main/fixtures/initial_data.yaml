@@ -1,3 +1,14 @@
+# people
+- model: main.Person
+  pk: 1
+  fields:
+    name: Ed Howe
+- model: main.Person
+  pk: 2
+  fields:
+    name: John Cote
+
+# dances
 - model: main.dance
   pk: 1
   fields:
@@ -23,14 +34,69 @@
   fields:
     name: Olympia Contra Dance 
 
+# bands
 - model: main.Band
   pk: 1
   fields:
     name: Perpetual eMotion
+- model: main.Band
+  pk: 2
+  fields:
+    name: The Noodles
 
+# instruments
+- model: main.Instrument
+  pk: 1
+  fields:
+    name: electric fiddle
+- model: main.Instrument
+  pk: 2
+  fields:
+    name: guitar
+- model: main.Instrument
+  pk: 3
+  fields:
+    name: digeridoo
+
+# band members
+- model: main.BandMember
+  pk: 1
+  fields:
+    person: 1
+    band: 1
+- model: main.BandMember
+  pk: 2
+  fields:
+    person: 2
+    band: 1
+
+# instruments
+- model: main.BandInstrument
+  pk: 1
+  fields:
+    instrument: 1
+    member: 1
+- model: main.BandInstrument
+  pk: 2
+  fields:
+    instrument: 2
+    member: 2
+- model: main.BandInstrument
+  pk: 3
+  fields:
+    instrument: 3
+    member: 2
+
+# events
 - model: main.Event
   pk: 1
   fields:
     date: 2011-02-25
     dance: 2
     band: 1
+- model: main.Event
+  pk: 2
+  fields:
+    date: 2011-03-04
+    dance: 2
+    band: 2

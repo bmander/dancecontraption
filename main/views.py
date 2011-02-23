@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 
 from google.appengine.api import users
 
-from main.models import Dance
+from main.models import Dance, Band, Event
 from main.forms import DanceForm
 
 def index(request):
@@ -31,9 +31,17 @@ def profile(request):
 def dance(request, id):
     dance = Dance.objects.get(pk=id)
 
-    events = dance.event_set.all().order_by('-date')
+    events = dance.event_set.all().order_by('date')
 
     return render_to_response('main/dance.html', {'dance':dance, 'events':events})
+
+def band(request,id):
+    band = Band.objects.get(pk=id)
+
+    events = band.event_set.all().order_by('date')
+    members = band.members.all()
+
+    return render_to_response('main/band.html', {'band':band, 'events':events, 'members':members})
 
 def dance_add(request):
     if request.method == 'POST': # If the form has been submitted...

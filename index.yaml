@@ -23,6 +23,22 @@ indexes:
 
 - kind: main_event
   properties:
+  - name: band_id
+  - name: date
+
+- kind: main_event
+  properties:
+  - name: band_id
+  - name: date
+    direction: desc
+
+- kind: main_event
+  properties:
+  - name: dance_id
+  - name: date
+
+- kind: main_event
+  properties:
   - name: dance_id
   - name: date
     direction: desc

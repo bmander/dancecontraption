@@ -4,7 +4,7 @@
 <h2>events<h2>
 <ul>
 {% for event in events %}
-<li>{{event.date}} - {{event.band.name}}</li>
+<li>{{event.date}} - <a href="{% url main.views.band event.band.id %}">{{event.band.name}}</a></li>
 {% endfor %}
 </ul>
 {% endblock %}
