@@ -4,7 +4,7 @@
   <div>
     <h1>Dance Contraption</h1>
     {% if user.is_authenticated %}
-      you're totally logged in as {{user.username}} <a href="{% url main.views.logout %}">logout</a>
+      you're totally logged in as {{user.username}} <a href="{% url django.contrib.auth.views.logout_then_login %}">logout</a>
     {% else %}
       <a href="{% url django.contrib.auth.views.login %}">login</a>
     {% endif %}
