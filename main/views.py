@@ -31,7 +31,9 @@ def profile(request):
 def dance(request, id):
     dance = Dance.objects.get(pk=id)
 
-    return render_to_response('main/dance.html', {'dance':dance})
+    events = dance.event_set.all().order_by('-date')
+
+    return render_to_response('main/dance.html', {'dance':dance, 'events':events})
 
 def dance_add(request):
     if request.method == 'POST': # If the form has been submitted...

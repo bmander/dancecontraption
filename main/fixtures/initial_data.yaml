@@ -22,3 +22,15 @@
   pk: 6
   fields:
     name: Olympia Contra Dance 
+
+- model: main.Band
+  pk: 1
+  fields:
+    name: Perpetual eMotion
+
+- model: main.Event
+  pk: 1
+  fields:
+    date: 2011-02-25
+    dance: 2
+    band: 1
