@@ -8,8 +8,6 @@ from google.appengine.api import users
 from main.models import Dance
 from main.forms import DanceForm
 
-from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
-
 def index(request):
 
     if request.user.is_authenticated():
@@ -26,25 +24,9 @@ def index(request):
                                                   'login_url':login_url,
 						  'logout_url':logout_url}))
 
-def login(request):
-    if request.method == 'POST':
-       user = authenticate(username=request.POST['username'], password=request.POST['password']) 
-       
-       if user and user.is_active:
-          auth_login(request,user)
-
-          return HttpResponseRedirect( "/" )
-
-    return render_to_response('main/login.html')
-
 @login_required
 def profile(request):
     return render_to_response('main/profile.html', RequestContext(request))
-
-def logout(request):
-    auth_logout(request)
-
-    return HttpResponseRedirect( "/" )
 
 def dance(request, id):
     dance = Dance.objects.get(pk=id)
