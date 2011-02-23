@@ -5,5 +5,6 @@ handler500 = 'djangotoolbox.errorviews.server_error'
 
 urlpatterns = patterns('',
     (r'^login/$', 'main.views.login' ), #try using django.contrib.auth.views.login instead
+    (r'^logout/$', 'main.views.logout' ),
     (r'^', include('main.urls')),
 )

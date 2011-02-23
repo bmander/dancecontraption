@@ -7,7 +7,7 @@ from google.appengine.api import users
 from main.models import Dance
 from main.forms import DanceForm
 
-from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 
 def index(request):
 
@@ -36,6 +36,11 @@ def login(request):
        
 
     return render_to_response('main/login.html')
+
+def logout(request):
+    auth_logout(request)
+
+    return HttpResponseRedirect( "/" )
 
 def dance(request, id):
     dance = Dance.objects.get(pk=id)
