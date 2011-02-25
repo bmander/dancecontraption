@@ -1,7 +1,7 @@
 {% extends "main/base.html" %}
 {% block content %}
 <h1>{{dance.name}}</h1>
-<h2>events<h2>
+<h2>events</h2>
 <ul>
 {% for event in events %}
 <li>{{event.date}} - <a href="{% url main.views.band event.band.id %}">{{event.band.name}}</a></li>
