@@ -8,9 +8,11 @@
       <li><a href="/dance/{{dance.id}}/">{{ dance.name }}</a></li>
     {% endfor %}
     </ul>
+    {% if user.is_authenticated %}
     <div>
       <a href="/dance/add/">add dance</a>
     </div>
+    {% endif %}
   <div>
 {% endblock %}
 
