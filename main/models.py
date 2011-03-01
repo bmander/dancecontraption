@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -29,3 +30,7 @@ class Event(models.Model):
   date = models.DateField()
   dance = models.ForeignKey(Dance,blank=True)
   band = models.ForeignKey(Band,blank=True)
+
+class Homeship(models.Model):
+  user = models.ForeignKey(User)
+  dance = models.ForeignKey(Dance)

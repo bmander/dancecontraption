@@ -9,4 +9,6 @@ urlpatterns = patterns('main.views',
     url(r'band/(?P<id>\d+)/$', 'band' ),
     url(r'^accounts/profile/$', 'profile' ),
     url(r'^accounts/signup/$', 'signup', name="signup" ),
+    url(r'^accounts/admin/sethome/$', 'set_home_dance',),
+    url(r'^accounts/admin/unsethome/$', 'unset_home_dance'),
 )

@@ -8,24 +8,15 @@ from django.contrib.auth import login, authenticate
 
 from google.appengine.api import users
 
-from main.models import Dance, Band, Event
+from main.models import Dance, Band, Event, Homeship
 from main.forms import DanceForm
 
 def index(request):
 
-    if request.user.is_authenticated():
-      login_url = users.create_login_url(dest_url="/")
-      logout_url = None
-    else:
-      login_url = None
-      logout_url = users.create_logout_url("/")
-
     dances = Dance.objects.all() 
 
     return render_to_response('main/index.html', RequestContext(request, 
-                                                 {'dances':dances,
-                                                  'login_url':login_url,
-						  'logout_url':logout_url}))
+                                                 {'dances':dances}))
 
 @login_required
 def profile(request):
@@ -36,7 +27,17 @@ def dance(request, id):
 
     events = dance.event_set.all().order_by('date')
 
-    return render_to_response('main/dance.html', {'dance':dance, 'events':events})
+    # user's home dance?
+    homeship=None
+    if request.user and request.user.is_authenticated():
+        try:
+            homeship = Homeship.objects.get(user=request.user,dance=dance)
+	except Homeship.DoesNotExist:
+	    pass
+
+    homeships = Homeship.objects.select_related('user').filter(dance=dance)
+
+    return render_to_response('main/dance.html', RequestContext(request,{'dance':dance, 'events':events, 'homeship':homeship, 'homeships':homeships}))
 
 def band(request,id):
     band = Band.objects.get(pk=id)
@@ -44,7 +45,7 @@ def band(request,id):
     events = band.event_set.all().order_by('date')
     members = band.members.all()
 
-    return render_to_response('main/band.html', {'band':band, 'events':events, 'members':members})
+    return render_to_response('main/band.html', RequestContext(request, {'band':band, 'events':events, 'members':members} ))
 
 def dance_add(request):
     if request.method == 'POST': # If the form has been submitted...
@@ -78,3 +79,21 @@ def signup(request):
     return render_to_response('main/signup.html', {
         'form': form,
     })
+
+def set_home_dance(request):
+    dance = Dance.objects.get(pk=request.GET['dance'])
+
+    homeship = Homeship.objects.get_or_create(user=request.user, dance=dance)
+
+    return HttpResponseRedirect("/dance/%s/"%dance.id)
+
+def unset_home_dance(request):
+    dance = Dance.objects.get(pk=request.GET['dance'])
+
+    try:
+      homeship = Homeship.objects.get(user=request.user, dance=dance)
+      homeship.delete()
+    except Homeship.DoesNotExist:
+      pass
+
+    return HttpResponseRedirect("/dance/%s/"%dance.id)

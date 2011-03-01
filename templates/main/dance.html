@@ -1,10 +1,18 @@
 {% extends "main/base.html" %}
 {% block content %}
 <h1>{{dance.name}}</h1>
+{% if user.is_authenticated %}{% if homeship %}this is your home dance! <a href="{% url main.views.unset_home_dance %}?dance={{dance.id}}">unset</a>{% else %}<a href="{% url main.views.set_home_dance %}?dance={{dance.id}}">set as home dance</a>{% endif %}{% endif %}
 <h2>events</h2>
 <ul>
 {% for event in events %}
-<li>{{event.date}} - <a href="{% url main.views.band event.band.id %}">{{event.band.name}}</a></li>
+<li>{{event.date}} - <a href="{% url main.views.band event.band_id %}">{{event.band.name}}</a></li>
+{% endfor %}
+</ul>
+
+<h2>dancers</h2>
+<ul>
+{% for homeship in homeships %}
+<li>{{homeship.user}}</li>
 {% endfor %}
 </ul>
 {% endblock %}
