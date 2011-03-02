@@ -13,4 +13,5 @@ urlpatterns = patterns('main.views',
     url(r'^accounts/admin/unsethome/$', 'unset_home_dance'),
     url(r'^facebook_auth/$', 'facebook_auth'),
     url(r'^facebook/disconnect/$', 'facebook_disconnect'),
+    url(r'^facebook/pull/$', 'facebook_pull'),
 )

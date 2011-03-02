@@ -120,6 +120,11 @@ def get_facebook_profile(access_token):
 
     return json.loads( fetch( url ).content )
 
+def get_facebook_friends(access_token):
+    url = "https://graph.facebook.com/me/friends?"+access_token
+
+    return json.loads( fetch( url ).content )
+
 def facebook_auth(request):
     oauth_code = request.GET['code']
 
@@ -146,3 +151,13 @@ def facebook_disconnect(request):
     profile.save()
 
     return HttpResponseRedirect( "/accounts/profile" )
+
+def facebook_pull(request):
+    profile = request.user.get_profile()
+    
+    facebook = profile.facebook
+
+    if facebook is None:
+        return HttpResponse("ain't got no facebook")
+
+    return HttpResponse( str(get_facebook_friends(facebook.access_token)) )
