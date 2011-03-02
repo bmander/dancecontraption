@@ -15,6 +15,7 @@ from secrets import APP_SECRET
 from google.appengine.api.urlfetch import fetch
 
 from django.utils import simplejson as json
+import settings
 
 def index(request):
 
@@ -108,11 +109,9 @@ def unset_home_dance(request):
     return HttpResponseRedirect("/dance/%s/"%dance.id)
 
 def get_facebook_access_token(oauth_code):
-    app_id = '192070850827451'
-
     redirect_uri='http://localhost:8000/facebook_auth'
 
-    url = "https://graph.facebook.com/oauth/access_token?client_id=%s&redirect_uri=%s&client_secret=%s&code=%s"%(app_id,redirect_uri,APP_SECRET,oauth_code)
+    url = "https://graph.facebook.com/oauth/access_token?client_id=%s&redirect_uri=%s&client_secret=%s&code=%s"%(settings.FACEBOOK_APP_ID,redirect_uri,APP_SECRET,oauth_code)
 
     return fetch( url ).content
 

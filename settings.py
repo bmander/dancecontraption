@@ -45,6 +45,8 @@ SITE_ID = 29
 
 AUTH_PROFILE_MODULE = 'main.UserProfile'
 
+FACEBOOK_APP_ID = '192070850827451'
+
 # Activate django-dbindexer if available
 try:
     import dbindexer
