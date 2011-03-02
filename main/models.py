@@ -3,6 +3,17 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
+class UserProfile(models.Model):
+  user = models.OneToOneField(User)
+  facebook = models.OneToOneField('FacebookLink',blank=True,null=True)
+
+class FacebookLink(models.Model):
+  oauth_code = models.CharField(max_length=255)
+  access_token = models.CharField(max_length=255)
+  account_id = models.CharField(max_length=255)
+  name = models.CharField(max_length=255)
+  link = models.CharField(max_length=255)
+
 class Person(models.Model):
   name = models.CharField(max_length=255)
 

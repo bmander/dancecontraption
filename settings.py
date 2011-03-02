@@ -43,6 +43,8 @@ ROOT_URLCONF = 'urls'
 
 SITE_ID = 29
 
+AUTH_PROFILE_MODULE = 'main.UserProfile'
+
 # Activate django-dbindexer if available
 try:
     import dbindexer

@@ -8,8 +8,13 @@ from django.contrib.auth import login, authenticate
 
 from google.appengine.api import users
 
-from main.models import Dance, Band, Event, Homeship
+from main.models import Dance, Band, Event, Homeship, UserProfile, FacebookLink
 from main.forms import DanceForm
+
+from secrets import APP_SECRET
+from google.appengine.api.urlfetch import fetch
+
+from django.utils import simplejson as json
 
 def index(request):
 
@@ -20,7 +25,9 @@ def index(request):
 
 @login_required
 def profile(request):
-    return render_to_response('main/profile.html', RequestContext(request))
+    profile = request.user.get_profile()
+
+    return render_to_response('main/profile.html', RequestContext(request, {'profile':profile}))
 
 def dance(request, id):
     dance = Dance.objects.get(pk=id)
@@ -72,6 +79,8 @@ def signup(request):
             
             login( request, user )
 
+            UserProfile(user=user).save()
+
             return HttpResponseRedirect('/accounts/profile/')
     else:
         form = UserCreationForm()
@@ -97,3 +106,44 @@ def unset_home_dance(request):
       pass
 
     return HttpResponseRedirect("/dance/%s/"%dance.id)
+
+def get_facebook_access_token(oauth_code):
+    app_id = '192070850827451'
+
+    redirect_uri='http://localhost:8000/facebook_auth'
+
+    url = "https://graph.facebook.com/oauth/access_token?client_id=%s&redirect_uri=%s&client_secret=%s&code=%s"%(app_id,redirect_uri,APP_SECRET,oauth_code)
+
+    return fetch( url ).content
+
+def get_facebook_profile(access_token):
+    url = "https://graph.facebook.com/me?"+access_token 
+
+    return json.loads( fetch( url ).content )
+
+def facebook_auth(request):
+    oauth_code = request.GET['code']
+
+    access_token = get_facebook_access_token(oauth_code)
+
+    facebook_profile = get_facebook_profile( access_token )
+
+    facebook_link = FacebookLink(oauth_code=oauth_code,
+                                 access_token=access_token,
+                                 account_id = facebook_profile['id'],
+                                 name = facebook_profile['name'],
+                                 link = facebook_profile['link'])
+    facebook_link.save()
+
+    profile = request.user.get_profile()
+    profile.facebook = facebook_link
+    profile.save()
+
+    return HttpResponseRedirect( "/accounts/profile" )
+
+def facebook_disconnect(request):
+    profile = request.user.get_profile()
+    profile.facebook = None
+    profile.save()
+
+    return HttpResponseRedirect( "/accounts/profile" )
