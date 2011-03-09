@@ -43,5 +43,5 @@ class Event(models.Model):
   band = models.ForeignKey(Band,blank=True)
 
 class Homeship(models.Model):
-  user = models.ForeignKey(User)
+  user = models.ForeignKey(User, related_name="homeships")
   dance = models.ForeignKey(Dance)

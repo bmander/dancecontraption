@@ -16,4 +16,10 @@
   <p>
   {% if profile.facebook %}<a href="{% url main.views.facebook_pull %}">get account info from facebook</a>{% endif %}
   </p>
+  <h2>home dance</h2>
+  <ul>
+  {% for homeship in request.user.homeships.all %}
+  <li><a href="{% url main.views.dance homeship.dance.id %}">{{homeship.dance.name}}</a></li>
+  {% endfor %}
+  </ul>
 {% endblock %}
