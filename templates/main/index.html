@@ -13,6 +13,17 @@
       <a href="/dance/add/">add dance</a>
     </div>
     {% endif %}
+    <h2>bands</h2>
+    <ul>
+    {% for band in bands %}
+      <li><a href="{% url main.views.band band.id %}">{{band.name}}</a></li>
+    {% endfor %}
+    {% if user.is_authenticated %}
+    {% endif %}
+    </ul>
+    <div>
+      <a href="{% url main.views.band_add %}">add band</a>
+    </div>
   <div>
 {% endblock %}
 

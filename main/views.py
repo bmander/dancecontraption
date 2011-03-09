@@ -10,7 +10,7 @@ from django.contrib.auth import login, authenticate
 from google.appengine.api import users
 
 from main.models import Dance, Band, Event, Homeship, UserProfile, FacebookLink
-from main.forms import DanceForm, EventForm
+from main.forms import DanceForm, EventForm, BandForm
 
 from secrets import APP_SECRET
 from google.appengine.api.urlfetch import fetch
@@ -21,9 +21,11 @@ import settings
 def index(request):
 
     dances = Dance.objects.all() 
+    bands = Band.objects.all()
 
     return render_to_response('main/index.html', RequestContext(request, 
-                                                 {'dances':dances}))
+                                                 {'dances':dances,
+                                                  'bands':bands}))
 
 def profile(request, id):
     user = User.objects.get(pk=id)
@@ -85,6 +87,18 @@ def event_add(request):
         form = EventForm()
 
     return render_to_response('main/event_add.html', {'form':form})
+
+def band_add(request):
+    if request.method == "POST":
+        form = BandForm(request.POST)
+        if form.is_valid():
+            band = form.instance
+            band.save()
+            return HttpResponseRedirect( "/" )
+    else:
+        form = BandForm()
+
+    return render_to_response('main/band_add.html', {'form':form})
 
 def signup(request):
     if request.method == 'POST': 
