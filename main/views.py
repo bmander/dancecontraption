@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -9,7 +10,7 @@ from django.contrib.auth import login, authenticate
 from google.appengine.api import users
 
 from main.models import Dance, Band, Event, Homeship, UserProfile, FacebookLink
-from main.forms import DanceForm
+from main.forms import DanceForm, EventForm
 
 from secrets import APP_SECRET
 from google.appengine.api.urlfetch import fetch
@@ -65,12 +66,25 @@ def dance_add(request):
     if request.method == 'POST': # If the form has been submitted...
         form = DanceForm(request.POST) # A form bound to the POST data
         if form.is_valid(): # All validation rules pass
-	    name = form.cleaned_data['name']
-	    dance = Dance(name=name)
-	    dance.save()
-	return HttpResponseRedirect('/') # Redirect after POST
+            name = form.cleaned_data['name']
+            dance = Dance(name=name)
+            dance.save()
+            return HttpResponseRedirect('/') # Redirect after POST
 
     return render_to_response('main/dance_add.html', {})
+
+def event_add(request):
+    if request.method == "POST":
+        form = EventForm(request.POST)
+        if form.is_valid():
+            event = form.instance
+            event.save()
+            return HttpResponseRedirect( reverse( 'main.views.dance', args=(event.dance.id,) ) )
+        
+    else:
+        form = EventForm()
+
+    return render_to_response('main/event_add.html', {'form':form})
 
 def signup(request):
     if request.method == 'POST': 

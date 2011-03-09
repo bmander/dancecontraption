@@ -20,8 +20,14 @@ class Person(models.Model):
 class Dance(models.Model):
   name = models.CharField(max_length=255)
 
+  def __unicode__(self):
+    return self.name
+
 class Band(models.Model):
   name = models.CharField(max_length=255)
+
+  def __unicode__(self):
+    return self.name
 
 class Instrument(models.Model):
   name = models.CharField(max_length=255)
@@ -39,8 +45,8 @@ class BandInstrument(models.Model):
 
 class Event(models.Model):
   date = models.DateField()
-  dance = models.ForeignKey(Dance,blank=True)
-  band = models.ForeignKey(Band,blank=True)
+  dance = models.ForeignKey(Dance)
+  band = models.ForeignKey(Band,null=True,blank=True)
 
 class Homeship(models.Model):
   user = models.ForeignKey(User, related_name="homeships")
