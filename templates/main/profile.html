@@ -6,16 +6,6 @@
     <h1>{{user.username}}</h1>
   <div>
   <p>
-  {% if profile.facebook %}
-    connected to facebook account <a href="{{profile.facebook.link}}">{{profile.facebook.name}}</a> - <a href="{% url main.views.facebook_disconnect %}">disconnect</a>
-  {% else %}
-    <a href="https://www.facebook.com/dialog/oauth?client_id=192070850827451&redirect_uri=http://localhost:8000/facebook_auth&scope=publish_stream">connect to facebook</a>
-  {% endif %}
-  </p>
-
-  <p>
-  {% if profile.facebook %}<a href="{% url main.views.facebook_pull %}">get account info from facebook</a>{% endif %}
-  </p>
   <h2>home dance</h2>
   <ul>
   {% for homeship in request.user.homeships.all %}

@@ -15,9 +15,9 @@ no events
 <h2>dancers</h2>
 <ul>
 {% for homeship in homeships %}
-<li>{{homeship.user}}</li>
+<li><a href="{% url main.views.profile homeship.user.id %}">{{homeship.user}}</a></li>
 {% empty %}
-no one calls this their home dance
+no one calls this their home dance...yet!
 {% endfor %}
 </ul>
 {% endblock %}

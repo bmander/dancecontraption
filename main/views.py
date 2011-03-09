@@ -24,11 +24,17 @@ def index(request):
     return render_to_response('main/index.html', RequestContext(request, 
                                                  {'dances':dances}))
 
-@login_required
-def profile(request):
-    profile = request.user.get_profile()
+def profile(request, id):
+    user = User.objects.get(pk=id)
+    profile = user.get_profile()
 
     return render_to_response('main/profile.html', RequestContext(request, {'profile':profile}))
+
+@login_required
+def home_profile(request):
+    profile = request.user.get_profile()
+
+    return render_to_response('main/home_profile.html', RequestContext(request, {'profile':profile}))
 
 def dance(request, id):
     dance = Dance.objects.get(pk=id)
