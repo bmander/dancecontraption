@@ -20,8 +20,8 @@ import settings
 
 def index(request):
 
-    dances = Dance.objects.all() 
-    bands = Band.objects.all()
+    dances = Dance.objects.all().order_by('name')
+    bands = Band.objects.all().order_by('name')
 
     return render_to_response('main/index.html', RequestContext(request, 
                                                  {'dances':dances,
