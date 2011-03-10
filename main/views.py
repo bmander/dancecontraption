@@ -29,6 +29,7 @@ def index(request):
 
 def profile(request, id):
     user = User.objects.get(pk=id)
+
     try:
         profile = user.get_profile()
     except UserProfile.DoesNotExist:
@@ -39,7 +40,13 @@ def profile(request, id):
 
 @login_required
 def home_profile(request):
-    profile = request.user.get_profile()
+    user = request.user
+
+    try:
+        profile = user.get_profile()
+    except UserProfile.DoesNotExist:
+        profile = UserProfile(user=user)
+        profile.save()
 
     return render_to_response('main/home_profile.html', RequestContext(request, {'profile':profile}))
 

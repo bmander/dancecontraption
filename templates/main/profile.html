@@ -3,12 +3,12 @@
 
 {% block content %}
   <div>
-    <h1>{{user.username}}</h1>
+    <h1>{{profile.user.username}}</h1>
   <div>
   <p>
   <h2>home dance</h2>
   <ul>
-  {% for homeship in request.user.homeships.all %}
+  {% for homeship in profile.user.homeships.all %}
   <li><a href="{% url main.views.dance homeship.dance.id %}">{{homeship.dance.name}}</a></li>
   {% endfor %}
   </ul>
