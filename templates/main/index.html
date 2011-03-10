@@ -8,12 +8,19 @@
         <ul>
             <li>Brand new, and pretty useless right now. Find Brandon Martin-Anderson (badhill@gmail.com) and tell him what you think!</li>
             <li>A tool for effective dance gypsying.</li>
-            <li>A place to host a community history of how callers, bands, events, and dancers interacted and crossed paths.</li>
+            <li>A place to host a community history of how callers, bands, events, and dancers interacted and crossed paths, and how contra has spread and changed over time.</li>
             <li>A place to moving dance organization off of Facebook and onto a place that doesn't exist explicitly to exploit community interactions for commercial gain.</li>
         </ul>
     </p>
+    <p>Also!</p>
     <p>
-    Also I'm interested in finding out who founded each dance and where they started dance to create a history of how contra expanded throughout the US and I figure this would be an easy platform for collecting that information.</p>
+    <ul>
+      <li>Dance Contraption is open source. <a href="https://github.com/bmander/dancecontraption">Dance Contraption github page</a>.</li>
+      <li>Use github to <a href="https://github.com/bmander/dancecontraption/issues">file bugs and feature requests.</a></li>
+      <li>Sam Kleinman made a contra wiki at <a href="http://contra.balanceandsing.com/">http://contra.balanceandsing.com/</a>.</li>
+      <li>Don't pronounce it "dance contraception" in your head.</li>
+    </ul>
+    </p>
     <h2>dances</h2>
     <ul>
     {% for dance in dances %}
@@ -36,7 +43,10 @@
     <div>
       <a href="{% url main.views.band_add %}">add band</a>
     </div>
-  <div>
+    <p style='padding-top:5px'>
+    <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a> 
+    </p>
+    <div>
 {% endblock %}
 
 
