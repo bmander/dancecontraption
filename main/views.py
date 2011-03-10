@@ -87,18 +87,21 @@ def dance_add(request):
 
     return render_to_response('main/dance_add.html', {})
 
-def event_add(request):
+def event_add(request, id):
+    dance = Dance.objects.get(pk=id)
+
     if request.method == "POST":
         form = EventForm(request.POST)
         if form.is_valid():
             event = form.instance
+            event.dance = dance 
             event.save()
             return HttpResponseRedirect( reverse( 'main.views.dance', args=(event.dance.id,) ) )
         
     else:
         form = EventForm()
 
-    return render_to_response('main/event_add.html', {'form':form})
+    return render_to_response('main/event_add.html', {'form':form,'dance':dance})
 
 @login_required
 def band_add(request):

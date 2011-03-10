@@ -8,6 +8,7 @@ class DanceForm(forms.Form):
 class EventForm(ModelForm):
     class Meta:
         model = Event
+        exclude = ['dance']
 
 class BandForm(ModelForm):
     class Meta:
