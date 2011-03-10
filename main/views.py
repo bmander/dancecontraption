@@ -29,7 +29,11 @@ def index(request):
 
 def profile(request, id):
     user = User.objects.get(pk=id)
-    profile = user.get_profile()
+    try:
+        profile = user.get_profile()
+    except UserProfile.DoesNotExist:
+        profile = UserProfile(user=user)
+        profile.save()
 
     return render_to_response('main/profile.html', RequestContext(request, {'profile':profile}))
 
