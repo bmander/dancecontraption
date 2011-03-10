@@ -27,11 +27,9 @@
       <li><a href="/dance/{{dance.id}}/">{{ dance.name }}</a></li>
     {% endfor %}
     </ul>
-    {% if user.is_authenticated %}
     <div>
       <a href="/dance/add/">add dance</a>
     </div>
-    {% endif %}
     <h2>bands</h2>
     <ul>
     {% for band in bands %}

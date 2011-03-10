@@ -75,6 +75,7 @@ def band(request,id):
 
     return render_to_response('main/band.html', RequestContext(request, {'band':band, 'events':events, 'members':members} ))
 
+@login_required
 def dance_add(request):
     if request.method == 'POST': # If the form has been submitted...
         form = DanceForm(request.POST) # A form bound to the POST data
@@ -99,6 +100,7 @@ def event_add(request):
 
     return render_to_response('main/event_add.html', {'form':form})
 
+@login_required
 def band_add(request):
     if request.method == "POST":
         form = BandForm(request.POST)
