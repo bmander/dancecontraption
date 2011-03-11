@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
+from datetime import date
 
 from google.appengine.api import users
 
@@ -65,7 +66,9 @@ def dance(request, id):
 
     homeships = Homeship.objects.select_related('user').filter(dance=dance)
 
-    return render_to_response('main/dance.html', RequestContext(request,{'dance':dance, 'events':events, 'homeship':homeship, 'homeships':homeships}))
+    now = date.today()
+
+    return render_to_response('main/dance.html', RequestContext(request,{'dance':dance, 'events':events, 'homeship':homeship, 'homeships':homeships,'now':now}))
 
 def band(request,id):
     band = Band.objects.get(pk=id)
