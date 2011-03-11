@@ -10,7 +10,7 @@ from datetime import date
 
 from google.appengine.api import users
 
-from main.models import Dance, Band, Event, Homeship, UserProfile, FacebookLink
+from main.models import Dance, Band, Event, Homeship, UserProfile, FacebookLink, Attendship
 from main.forms import DanceForm, EventForm, BandForm
 
 from secrets import APP_SECRET
@@ -69,6 +69,13 @@ def dance(request, id):
     now = date.today()
 
     return render_to_response('main/dance.html', RequestContext(request,{'dance':dance, 'events':events, 'homeship':homeship, 'homeships':homeships,'now':now}))
+
+@login_required
+def event_attend(request, id):
+    event = Event.objects.get(pk=id)
+    attendship, created = Attendship.objects.get_or_create(user=request.user, event=event)
+    attendship.save()
+    return HttpResponse( unicode(attendship)+str(created) )
 
 def band(request,id):
     band = Band.objects.get(pk=id)

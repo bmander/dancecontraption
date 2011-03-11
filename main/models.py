@@ -55,3 +55,6 @@ class Homeship(models.Model):
 class Attendship(models.Model):
   user = models.ForeignKey(User, related_name="attendships")
   event = models.ForeignKey(Event)
+
+  def __unicode__(self):
+    return "%s is attending %s"%(self.user, self.event)
