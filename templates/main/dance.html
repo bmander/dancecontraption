@@ -5,7 +5,30 @@
 <h2>events</h2>
 <ul>
 {% for event in events %}
-<li>{{event.date}} - {% if event.band %}<a href="{% url main.views.band event.band_id %}">{{event.band.name}}</a>{% else %}mystery band{% endif %} <a href="{% url main.views.event_attend event.id %}">{% if event.date > now %}I'm going{% else %}I went{% endif %}</a></li>
+<li>{{event.date}} - 
+    {% if event.band %}
+        <a href="{% url main.views.band event.band_id %}">{{event.band.name}}</a>
+    {% else %}
+        mystery band
+    {% endif %} 
+    {% if not event.attended %}
+    <a href="{% url main.views.event_attend event.id %}">
+        {% if event.date > now %}
+            I'm going
+        {% else %}
+            I went
+        {% endif %}
+    </a>
+    {% else %}
+    <a href="{% url main.views.event_unattend event.id %}">
+        {% if event.date > now %}
+            I'm not going 
+        {% else %}
+            I didn't go 
+        {% endif %}
+    </a>
+    {% endif %} - {{event.attendships.count}} dancers
+</li>
 {% empty %}
 no events
 {% endfor %}

@@ -12,4 +12,11 @@
   <li><a href="{% url main.views.dance homeship.dance.id %}">{{homeship.dance.name}}</a></li>
   {% endfor %}
   </ul>
+  <h2>events</h2>
+  <ul>
+  {% for attendship in profile.user.attendships.all %}
+  blah
+  <li>{{attendship}}</li>
+  {% endfor %}
+  </ul>
 {% endblock %}

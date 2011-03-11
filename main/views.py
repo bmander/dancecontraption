@@ -54,7 +54,13 @@ def home_profile(request):
 def dance(request, id):
     dance = Dance.objects.get(pk=id)
 
-    events = dance.event_set.all().order_by('date')
+    events = dance.event_set.all().order_by('date').select_related('attendships')
+
+    if request.user.is_authenticated():
+        attended_events = set([x[0] for x in Attendship.objects.filter(user=request.user).values_list('event_id')])
+
+        for event in events:
+            event.attended = event.id in attended_events
 
     # user's home dance?
     homeship=None
@@ -75,7 +81,19 @@ def event_attend(request, id):
     event = Event.objects.get(pk=id)
     attendship, created = Attendship.objects.get_or_create(user=request.user, event=event)
     attendship.save()
-    return HttpResponse( unicode(attendship)+str(created) )
+
+    return HttpResponseRedirect( reverse( 'main.views.dance', args=(event.dance_id,)) )
+
+@login_required
+def event_unattend(request, id):
+    event = Event.objects.get(pk=id)
+    try:
+        attendship = Attendship.objects.get(user=request.user, event=event)
+        attendship.delete()
+    except Attendship.DoesNotExist:
+        pass
+
+    return HttpResponseRedirect( reverse('main.views.dance', args=(event.dance_id,)) )
 
 def band(request,id):
     band = Band.objects.get(pk=id)

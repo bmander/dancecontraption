@@ -48,13 +48,16 @@ class Event(models.Model):
   dance = models.ForeignKey(Dance)
   band = models.ForeignKey(Band,null=True,blank=True)
 
+  def __unicode__(self):
+    return "id:%s date:%s dance_id:%s band_id:%s"%(self.id, self.date,self.dance_id,self.band_id)
+
 class Homeship(models.Model):
   user = models.ForeignKey(User, related_name="homeships")
   dance = models.ForeignKey(Dance)
 
 class Attendship(models.Model):
   user = models.ForeignKey(User, related_name="attendships")
-  event = models.ForeignKey(Event)
+  event = models.ForeignKey(Event, related_name="attendships")
 
   def __unicode__(self):
-    return "%s is attending %s"%(self.user, self.event)
+    return "user_id:%s event_id:%s"%(self.user_id, self.event_id)
