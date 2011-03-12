@@ -72,5 +72,7 @@ class Attendship(models.Model):
   user = models.ForeignKey(User, related_name="attendships")
   event = models.ForeignKey(Event, related_name="attendships")
 
+  date = models.DateField(null=True) # a copy of event.date, so we can sort eventships
+
   def __unicode__(self):
     return "user_id:%s event_id:%s"%(self.user_id, self.event_id)

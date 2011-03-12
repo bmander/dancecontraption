@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
-from datetime import date
+from datetime import date, datetime
 
 from google.appengine.api import users
 
@@ -39,7 +39,11 @@ def profile(request, id):
         profile = UserProfile(user=user)
         profile.save()
 
-    return render_to_response('main/profile.html', RequestContext(request, {'profile':profile}))
+    attendships = user.attendships.order_by("date")
+    for attendship in attendships:
+        attendship.past = attendship.date < date.today()
+
+    return render_to_response('main/profile.html', RequestContext(request, {'profile':profile,'attendships':attendships}))
 
 @login_required
 def home_profile(request):
@@ -51,7 +55,11 @@ def home_profile(request):
         profile = UserProfile(user=user)
         profile.save()
 
-    return render_to_response('main/home_profile.html', RequestContext(request, {'profile':profile}))
+    attendships = user.attendships.order_by("date")
+    for attendship in attendships:
+        attendship.past = attendship.date < date.today()
+
+    return render_to_response('main/home_profile.html', RequestContext(request, {'profile':profile, 'attendships':attendships}))
 
 @login_required
 def profile_edit(request):
@@ -100,7 +108,7 @@ def dance(request, id):
 @login_required
 def event_attend(request, id):
     event = Event.objects.get(pk=id)
-    attendship, created = Attendship.objects.get_or_create(user=request.user, event=event)
+    attendship, created = Attendship.objects.get_or_create(user=request.user, event=event, date=event.date)
     attendship.save()
 
     return HttpResponseRedirect( reverse( 'main.views.dance', args=(event.dance_id,)) )
@@ -264,3 +272,12 @@ def facebook_pull(request):
         return HttpResponse("ain't got no facebook")
 
     return HttpResponse( str(get_facebook_friends(facebook.access_token)) )
+
+def fixattendships(request):
+
+    for attendship in Attendship.objects.all():
+        if attendship.date is None:
+            attendship.date = attendship.event.date
+            attendship.save()
+
+    return HttpResponse('success')

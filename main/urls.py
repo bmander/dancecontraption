@@ -18,4 +18,6 @@ urlpatterns = patterns('main.views',
     url(r'^facebook_auth/$', 'facebook_auth'),
     url(r'^facebook/disconnect/$', 'facebook_disconnect'),
     url(r'^facebook/pull/$', 'facebook_pull'),
+
+    url(r'^data/fixattendships/$', 'fixattendships'),
 )

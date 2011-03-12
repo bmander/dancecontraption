@@ -23,8 +23,8 @@
 
   <h2>events</h2>
   <ul>
-  {% for attendship in profile.user.attendships.all %}
-  <li><a href="{% url main.views.dance attendship.event.dance_id %}">{{attendship.event.dance}}</a> on {{attendship.event.date}}</li>
+  {% for attendship in attendships %}
+  <li {% if attendship.past %}style="color:gray"{% endif %}><a href="{% url main.views.dance attendship.event.dance_id %}">{{attendship.event.dance}}</a> on {{attendship.event.date}}</li>
   {% endfor %}
   </ul>
 {% endblock %}
