@@ -23,7 +23,7 @@ def index(request):
 
     dances = Dance.objects.all().order_by('name')
     bands = Band.objects.all().order_by('name')
-    users = User.objects.all().order_by('-date_joined')[:20]
+    users = User.objects.select_related('attendships').all().order_by('-date_joined')[:20]
 
     return render_to_response('main/index.html', RequestContext(request, 
                                                  {'dances':dances,
