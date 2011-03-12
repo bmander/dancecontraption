@@ -11,7 +11,7 @@ from datetime import date
 from google.appengine.api import users
 
 from main.models import Dance, Band, Event, Homeship, UserProfile, FacebookLink, Attendship
-from main.forms import DanceForm, EventForm, BandForm
+from main.forms import DanceForm, EventForm, BandForm, UserCreationWithNameForm
 
 from secrets import APP_SECRET
 from google.appengine.api.urlfetch import fetch
@@ -148,12 +148,16 @@ def band_add(request):
 
 def signup(request):
     if request.method == 'POST': 
-        form = UserCreationForm(request.POST)
+        form = UserCreationWithNameForm(request.POST)
         if form.is_valid(): 
                         
             user = User.objects.create_user(form.cleaned_data['username'], 
                                             "",
                                             form.cleaned_data['password1'])
+
+            user.first_name = form.cleaned_data['first_name']
+            user.last_name = form.cleaned_data['last_name']
+            user.save()
             
             user = authenticate(username=form.cleaned_data['username'], 
                                 password=form.cleaned_data['password1'])
@@ -164,7 +168,7 @@ def signup(request):
 
             return HttpResponseRedirect('/accounts/profile/')
     else:
-        form = UserCreationForm()
+        form = UserCreationWithNameForm()
 
     return render_to_response('main/signup.html', {
         'form': form,

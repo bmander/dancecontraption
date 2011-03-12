@@ -44,7 +44,7 @@
     <h2>new people</h2>
     <ul>
     {% for user in users %}
-    <li><a href="{% url main.views.profile user.id %}">{{user.username}}</a> - joined {{user.date_joined|date}}</li>
+    <li><a href="{% url main.views.profile user.id %}">{{user.get_profile.display_name}}</a> - joined {{user.date_joined|date}}</li>
     {% endfor %}
     </ul>
     <p style='padding-top:5px'>

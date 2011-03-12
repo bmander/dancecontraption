@@ -3,20 +3,27 @@
 
 {% block content %}
   <div>
-    <h1>{{profile.user.username}}</h1>
+    <h1>{{profile.display_name}}</h1>
   <div>
   <p>
   <h2>home dance</h2>
+  {% if profile.user.homeships.all %}
   <ul>
   {% for homeship in profile.user.homeships.all %}
   <li><a href="{% url main.views.dance homeship.dance.id %}">{{homeship.dance.name}}</a></li>
   {% endfor %}
   </ul>
+  {% else %}
+  <p>no home dance</a>
+  {% endif %}
   <h2>events</h2>
+  {% if profile.user.attendships.all %}
   <ul>
   {% for attendship in profile.user.attendships.all %}
-  blah
   <li>{{attendship}}</li>
   {% endfor %}
+  {% else %}
+  <p>not attending anything</p>
+  {% endif %}
   </ul>
 {% endblock %}

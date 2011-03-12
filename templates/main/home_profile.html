@@ -3,7 +3,7 @@
 
 {% block content %}
   <div>
-    <h1>{{user.username}}</h1>
+    <h1>{{request.user.get_profile.display_name}}</h1>
   <div>
   <p>
   {% if profile.facebook %}

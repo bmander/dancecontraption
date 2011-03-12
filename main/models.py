@@ -7,6 +7,19 @@ class UserProfile(models.Model):
   user = models.OneToOneField(User)
   facebook = models.OneToOneField('FacebookLink',blank=True,null=True)
 
+  def display_name(self):
+    ret = ""
+    if self.user.first_name and self.user.first_name!='':
+        ret = ret+self.user.first_name
+
+    if self.user.last_name and self.user.last_name!='':
+        ret = ret+" "+self.user.last_name
+
+    if ret!='':
+        return ret
+    else:
+        return self.user.username
+
 class FacebookLink(models.Model):
   oauth_code = models.CharField(max_length=255)
   access_token = models.CharField(max_length=255)
