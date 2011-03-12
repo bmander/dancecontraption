@@ -3,10 +3,27 @@
   pk: 1
   fields:
     name: Ed Howe
+    name_normalized: ed howe
 - model: main.Person
   pk: 2
   fields:
     name: John Cote
+    name_normalized: john cote
+- model: main.Person
+  pk: 3
+  fields:
+    name: Lisa Greenleaf
+    name_normalized: lisa greenleaf
+- model: main.Person
+  pk: 4
+  fields:
+    name: Chris Isaacs
+    name_normalized: chris isaacs
+- model: main.Person
+  pk: 5
+  fields:
+    name: David Kaynor
+    name_normalized: david kaynor
 
 # dances
 - model: main.dance

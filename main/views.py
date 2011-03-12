@@ -7,10 +7,11 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
 from datetime import date, datetime
+from main.helpers import normalize_string
 
 from google.appengine.api import users
 
-from main.models import Dance, Band, Event, Homeship, UserProfile, FacebookLink, Attendship
+from main.models import Dance, Band, Event, Homeship, UserProfile, FacebookLink, Attendship, Person
 from main.forms import DanceForm, EventForm, BandForm, UserCreationWithNameForm, UserForm
 
 from secrets import APP_SECRET
@@ -281,3 +282,25 @@ def fixattendships(request):
             attendship.save()
 
     return HttpResponse('success')
+
+def fixpeople(request):
+    for person in Person.objects.all():
+        person.name_normalized = normalize_string(person.name)
+        person.save()
+
+    return HttpResponse('success')
+
+def person_add(request):
+    return render_to_response( "main/person_add.html" )
+
+def person_search_json(request):
+    searchterm = normalize_string( request.GET['q'] )
+
+    if searchterm=='':
+       resp_obj = []
+    else:
+        people = Person.objects.all().filter(name_normalized__startswith=searchterm)[:20]
+
+        resp_obj = [person.name for person in people]
+
+    return HttpResponse( json.dumps(resp_obj) )

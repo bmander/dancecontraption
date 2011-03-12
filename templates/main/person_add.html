@@ -1,0 +1,50 @@
+{% extends "main/base.html" %}
+
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        function react_to_keyup() {
+            alert("hiworld");
+        }
+
+        react_to_person_search = function(data) {
+            $("#autosuggest").html("");
+            console.log(data);
+            if(data.length>0) {
+                for(i=0; i<data.length;i++) {
+                    $("#autosuggest").append( "<div>"+data[i]+"</div>" );
+                }
+            } else {
+                $("#autosuggest").html("<span>No matching names. Create?</span>");
+            }
+        }
+
+        functionQueued = false;
+
+        $('#name').keydown(function(event) {
+            if (!functionQueued) {
+                window.setTimeout(function() {
+                    var input_value = event.currentTarget.value;
+                    $.getJSON("/person/search/json/?q="+input_value, react_to_person_search);
+                    functionQueued = false;
+                }, 400, true);
+                functionQueued = true;
+            }
+        });
+
+        //$("#name").keyup(function(event){
+        //    var input_value = event.currentTarget.value;
+        //    $.getJSON("/person/search/json/?q="+input_value);
+        //    //console.log( event.currentTarget.value );
+        //    //react_to_keyup();
+        //});
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+<input id="name" autocomplete="off"></input>
+<div id="autosuggest">
+</div>
+{% endblock %}
+

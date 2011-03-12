@@ -29,6 +29,7 @@ class FacebookLink(models.Model):
 
 class Person(models.Model):
   name = models.CharField(max_length=255)
+  name_normalized = models.CharField(max_length=255)
 
 class Dance(models.Model):
   name = models.CharField(max_length=255)

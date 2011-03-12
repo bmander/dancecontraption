@@ -19,5 +19,9 @@ urlpatterns = patterns('main.views',
     url(r'^facebook/disconnect/$', 'facebook_disconnect'),
     url(r'^facebook/pull/$', 'facebook_pull'),
 
+    url(r'^person/add/$', 'person_add'),
+    url(r'^person/search/json/$', 'person_search_json'),
+
     url(r'^data/fixattendships/$', 'fixattendships'),
+    url(r'^data/fixpeople/$', 'fixpeople'),
 )
