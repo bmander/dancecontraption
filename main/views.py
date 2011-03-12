@@ -23,10 +23,12 @@ def index(request):
 
     dances = Dance.objects.all().order_by('name')
     bands = Band.objects.all().order_by('name')
+    users = User.objects.all().order_by('-date_joined')[:20]
 
     return render_to_response('main/index.html', RequestContext(request, 
                                                  {'dances':dances,
-                                                  'bands':bands}))
+                                                  'bands':bands,
+                                                  'users':users}))
 
 def profile(request, id):
     user = User.objects.get(pk=id)
