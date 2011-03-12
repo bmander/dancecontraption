@@ -6,6 +6,7 @@
     <h1>{{request.user.get_profile.display_name}}</h1>
   <div>
   <p>
+  <a href="{% url main.views.profile_edit %}">edit profile</a>
   {% if profile.facebook %}
     connected to facebook account <a href="{{profile.facebook.link}}">{{profile.facebook.name}}</a> - <a href="{% url main.views.facebook_disconnect %}">disconnect</a>
   {% else %}

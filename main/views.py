@@ -11,7 +11,7 @@ from datetime import date
 from google.appengine.api import users
 
 from main.models import Dance, Band, Event, Homeship, UserProfile, FacebookLink, Attendship
-from main.forms import DanceForm, EventForm, BandForm, UserCreationWithNameForm
+from main.forms import DanceForm, EventForm, BandForm, UserCreationWithNameForm, UserForm
 
 from secrets import APP_SECRET
 from google.appengine.api.urlfetch import fetch
@@ -52,6 +52,25 @@ def home_profile(request):
         profile.save()
 
     return render_to_response('main/home_profile.html', RequestContext(request, {'profile':profile}))
+
+@login_required
+def profile_edit(request):
+    user = request.user
+
+    if request.method == "POST":
+        form = UserForm(request.POST)
+        if form.is_valid():
+            user.first_name = form.cleaned_data['first_name']
+            user.last_name = form.cleaned_data['last_name']
+            user.email = form.cleaned_data['email']
+            user.save()
+
+            return HttpResponseRedirect( reverse( 'main.views.home_profile' ) )
+        
+    else:
+        form = UserForm(initial={'first_name':user.first_name,'last_name':user.last_name,'email':user.email})
+
+    return render_to_response('main/profile_edit.html', {'form':form,'dance':dance})
 
 def dance(request, id):
     dance = Dance.objects.get(pk=id)
