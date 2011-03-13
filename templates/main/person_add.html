@@ -3,21 +3,30 @@
 {% block scripts %}
 <script type="text/javascript">
     $(document).ready(function(){
-        function react_to_keyup() {
-            alert("hiworld");
-        }
 
         react_to_person_search = function(data) {
+            // blank suggestion list
             $("#autosuggest").html("");
-            console.log(data);
-            if(data.matches.length>0) {
-                for(i=0; i<data.matches.length;i++) {
-                    $("#autosuggest").append( "<div>"+data.matches[i]+"</div>" );
-                }
-            } else {
-                if(data.q!='') {
-                    $("#autosuggest").html("<span>No matching names. <a href=\"\">Create "+data.q+"</a></span>");
-                }
+
+            // for each suggestion
+            for(i=0; i<data.matches.length;i++) {
+                // create a div
+                var matchdiv = $("<div>"+data.matches[i]+"</div>")
+                
+                // highlight on mouseover
+                matchdiv.mouseenter(function(event) {
+                    $(this).css('background-color','#E8E8E8');
+                }).mouseleave(function(event) {
+                    $(this).css('background-color','white');
+                });
+
+                // on click set form text to div text 
+                matchdiv.click(function(event){
+                    $("#name").val($(event.currentTarget).text());
+                })
+
+                // slap this div on the end of the suggestions list
+                $("#autosuggest").append( matchdiv );
             }
         }
 
@@ -34,12 +43,6 @@
             }
         });
 
-        //$("#name").keyup(function(event){
-        //    var input_value = event.currentTarget.value;
-        //    $.getJSON("/person/search/json/?q="+input_value);
-        //    //console.log( event.currentTarget.value );
-        //    //react_to_keyup();
-        //});
     });
 </script>
 {% endblock %}
