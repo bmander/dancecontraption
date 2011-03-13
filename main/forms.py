@@ -12,6 +12,11 @@ class EventForm(ModelForm):
         model = Event
         exclude = ['dance']
 
+class EventForm(forms.Form):
+    date = forms.DateField()
+    band = forms.CharField(max_length=255)
+    caller = forms.CharField(max_length=255)
+
 class BandForm(ModelForm):
     class Meta:
         model = Band

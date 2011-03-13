@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from main.helpers import normalize_string
 
 # Create your models here.
 
@@ -31,6 +32,11 @@ class Person(models.Model):
   name = models.CharField(max_length=255)
   name_normalized = models.CharField(max_length=255)
 
+  def __init__(self, *args, **kwargs):
+    models.Model.__init__(self, *args, **kwargs)
+
+    self.name_normalized = normalize_string(self.name)
+
   def __unicode__(self):
     return self.name
 
@@ -42,6 +48,12 @@ class Dance(models.Model):
 
 class Band(models.Model):
   name = models.CharField(max_length=255)
+  name_normalized = models.CharField(max_length=255)
+
+  def __init__(self, *args, **kwargs):
+    models.Model.__init__(self, *args, **kwargs)
+
+    self.name_normalized = normalize_string(self.name)
 
   def __unicode__(self):
     return self.name

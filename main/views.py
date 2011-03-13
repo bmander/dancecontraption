@@ -151,8 +151,12 @@ def event_add(request, id):
     if request.method == "POST":
         form = EventForm(request.POST)
         if form.is_valid():
-            event = form.instance
-            event.dance = dance 
+            # figure out band
+            band, band_created = Band.objects.get_or_create(name=form.cleaned_data['band'])
+            # figure out caller
+            caller, caller_created = Person.objects.get_or_create(name=form.cleaned_data['caller'])
+
+            event = Event(date=form.cleaned_data['date'],band=band,caller=caller,dance=dance)
             event.save()
             return HttpResponseRedirect( reverse( 'main.views.dance', args=(event.dance.id,) ) )
         
