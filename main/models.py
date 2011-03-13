@@ -31,6 +31,9 @@ class Person(models.Model):
   name = models.CharField(max_length=255)
   name_normalized = models.CharField(max_length=255)
 
+  def __unicode__(self):
+    return self.name
+
 class Dance(models.Model):
   name = models.CharField(max_length=255)
 
@@ -61,6 +64,7 @@ class Event(models.Model):
   date = models.DateField()
   dance = models.ForeignKey(Dance)
   band = models.ForeignKey(Band,null=True,blank=True)
+  caller = models.ForeignKey(Person,null=True,blank=True)
 
   def __unicode__(self):
     return "id:%s date:%s dance_id:%s band_id:%s"%(self.id, self.date,self.dance_id,self.band_id)

@@ -294,13 +294,16 @@ def person_add(request):
     return render_to_response( "main/person_add.html" )
 
 def person_search_json(request):
-    searchterm = normalize_string( request.GET['q'] )
+    q = request.GET['q']
+    searchterm = normalize_string( q )
 
     if searchterm=='':
-       resp_obj = []
+       matches = []
     else:
         people = Person.objects.all().filter(name_normalized__startswith=searchterm)[:20]
 
-        resp_obj = [person.name for person in people]
+        matches = [person.name for person in people]
+
+    resp_obj = {'q':q,'matches':matches}
 
     return HttpResponse( json.dumps(resp_obj) )

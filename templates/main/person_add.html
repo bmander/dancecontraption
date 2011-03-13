@@ -10,12 +10,14 @@
         react_to_person_search = function(data) {
             $("#autosuggest").html("");
             console.log(data);
-            if(data.length>0) {
-                for(i=0; i<data.length;i++) {
-                    $("#autosuggest").append( "<div>"+data[i]+"</div>" );
+            if(data.matches.length>0) {
+                for(i=0; i<data.matches.length;i++) {
+                    $("#autosuggest").append( "<div>"+data.matches[i]+"</div>" );
                 }
             } else {
-                $("#autosuggest").html("<span>No matching names. Create?</span>");
+                if(data.q!='') {
+                    $("#autosuggest").html("<span>No matching names. <a href=\"\">Create "+data.q+"</a></span>");
+                }
             }
         }
 
