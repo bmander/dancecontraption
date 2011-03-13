@@ -309,11 +309,26 @@ def person_search_json(request):
     searchterm = normalize_string( q )
 
     if searchterm=='':
-       matches = []
+        matches = []
     else:
         people = Person.objects.all().filter(name_normalized__startswith=searchterm)[:20]
 
         matches = [person.name for person in people]
+
+    resp_obj = {'q':q,'matches':matches}
+
+    return HttpResponse( json.dumps(resp_obj) )
+
+def band_search_json(request):
+    q = request.GET['q']
+    searchterm = normalize_string( q )
+
+    if searchterm=='':
+        matches = []
+    else:
+        bands = Band.objects.all().filter(name_normalized__startswith=searchterm)[:20]
+
+        matches = [band.name for band in bands]
 
     resp_obj = {'q':q,'matches':matches}
 
