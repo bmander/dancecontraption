@@ -14,8 +14,8 @@ class EventForm(ModelForm):
 
 class EventForm(forms.Form):
     date = forms.DateField()
-    band = forms.CharField(max_length=255)
-    caller = forms.CharField(max_length=255)
+    band = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'autocomplete':'off'}))
+    caller = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'autocomplete':'off'}))
 
 class BandForm(ModelForm):
     class Meta:

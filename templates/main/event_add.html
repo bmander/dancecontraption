@@ -1,8 +1,73 @@
 {% extends "main/base.html" %}
+
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        react_to_caller_search = function(data) {
+            // blank suggestion list
+            $("#caller_suggestions").html("");
+
+            // for each suggestion
+            for(i=0; i<data.matches.length;i++) {
+                // create a div
+                var matchdiv = $("<div>"+data.matches[i]+"</div>")
+                
+                // highlight on mouseover
+                matchdiv.mouseenter(function(event) {
+                    $(this).css('background-color','#E8E8E8');
+                }).mouseleave(function(event) {
+                    $(this).css('background-color','white');
+                });
+
+                // on click set form text to div text 
+                matchdiv.click(function(event){
+                    $("#id_caller").val($(event.currentTarget).text());
+                })
+
+                // slap this div on the end of the suggestions list
+                $("#caller_suggestions").append( matchdiv );
+            }
+        }
+
+        functionQueued = false;
+
+        $('#id_caller').keydown(function(event) {
+            if (!functionQueued) {
+                window.setTimeout(function() {
+                    var input_value = event.currentTarget.value;
+                    $.getJSON("/person/search/json/?q="+input_value, react_to_caller_search);
+                    functionQueued = false;
+                }, 400, true);
+                functionQueued = true;
+            }
+        });
+
+    });
+</script>
+{% endblock %}
+
 {% block content %}
 <h1>{{dance.name}} - Add Event</h1>
 <form method="post">
-{{ form.as_p }}
-<input type="submit"/>
+    {{ form.non_field_errors }}
+    <div>
+        {{ form.date.errors }}
+        <label for="id_date">Date:</label>
+        {{ form.date }}
+    </div>
+    <div>
+        {{ form.band.errors }}
+        <label for="id_band">Band:</label>
+        {{ form.band }}
+    </div>
+    <div>
+        {{ form.caller.errors }}
+        <label for="id_caller">Caller:</label>
+        {{ form.caller }}
+    </div>
+    <div id="caller_suggestions">
+    </div>
+    <input type="submit"/>
 </form>
 {% endblock %}

@@ -294,6 +294,13 @@ def fixpeople(request):
 
     return HttpResponse('success')
 
+def fixbands(request):
+    for band in Band.objects.all():
+        band.name_normalized = normalize_string(band.name)
+        band.save()
+
+    return HttpResponse('success')
+
 def person_add(request):
     return render_to_response( "main/person_add.html" )
 

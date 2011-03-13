@@ -24,4 +24,5 @@ urlpatterns = patterns('main.views',
 
     url(r'^data/fixattendships/$', 'fixattendships'),
     url(r'^data/fixpeople/$', 'fixpeople'),
+    url(r'^data/fixbands/$', 'fixbands'),
 )
